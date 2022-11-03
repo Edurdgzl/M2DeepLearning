@@ -28,15 +28,8 @@ data_augmentation = keras.Sequential([layers.RandomFlip("horizontal"),
                                       layers.RandomRotation(0.1),
                                       layers.RandomZoom(0.2)])
 
-plt.figure(figsize=(10, 10))
-for images, _ in train_dataset.take(1):
-    for i in range(9):
-        augmented_images = data_augmentation(images)
-        ax = plt.subplot(3, 3, i + 1)
-        plt.imshow(augmented_images[0].numpy().astype("uint8"))
-        plt.axis("off")
 
-# Second Model
+# Model
 model = keras.Sequential([keras.Input(shape=(180, 180, 3)),
                           layers.RandomFlip("horizontal"),
                           layers.RandomRotation(0.1),
@@ -58,10 +51,10 @@ model.compile(loss="binary_crossentropy",
               optimizer="rmsprop",
               metrics=["accuracy"])
 
-
+# Save model
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        filepath="convnet_from_scratch_with_augmentation.keras",
+        filepath="model.keras",
         save_best_only=True,
         monitor="val_loss")]
 
@@ -71,7 +64,7 @@ history = model.fit(
     validation_data=validation_dataset,
     callbacks=callbacks)
 
-
+# Plots
 accuracy = history.history["accuracy"]
 val_accuracy = history.history["val_accuracy"]
 loss = history.history["loss"]
