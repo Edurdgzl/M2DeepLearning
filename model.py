@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing import image_dataset_from_directory
 import matplotlib.pyplot as plt
 import pathlib
 
-original_dir = pathlib.Path("train")                           
+
 new_base_dir = pathlib.Path("data")
 
 # Datasets
