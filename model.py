@@ -7,6 +7,7 @@ import pathlib
 
 new_base_dir = pathlib.Path("data")
 
+
 # Datasets
 train_dataset = image_dataset_from_directory(
     new_base_dir / "train",
@@ -22,6 +23,7 @@ for data_batch, labels_batch in train_dataset:
     print("data batch shape:", data_batch.shape)
     print("labels batch shape:", labels_batch.shape)
     break
+
 
 # Augmentation
 data_augmentation = keras.Sequential([layers.RandomFlip("horizontal"),
@@ -51,6 +53,7 @@ model.compile(loss="binary_crossentropy",
               optimizer="rmsprop",
               metrics=["accuracy"])
 
+
 # Save model
 callbacks = [
     keras.callbacks.ModelCheckpoint(
@@ -58,11 +61,13 @@ callbacks = [
         save_best_only=True,
         monitor="val_loss")]
 
+
 history = model.fit(
     train_dataset,
     epochs=30,
     validation_data=validation_dataset,
     callbacks=callbacks)
+
 
 # Plots
 accuracy = history.history["accuracy"]
@@ -75,7 +80,6 @@ plt.plot(epochs, accuracy, "bo", label="Training accuracy")
 plt.plot(epochs, val_accuracy, "b", label="Validation accuracy")
 plt.title("Training and validation accuracy")
 plt.legend()
-
 plt.figure()
 plt.plot(epochs, loss, "bo", label="Training loss")
 plt.plot(epochs, val_loss, "b", label="Validation loss")
